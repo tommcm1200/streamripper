@@ -45,7 +45,7 @@ while (true); do
         #Streamripper
         streamripper $URL -d $output_dir -l $DURATION -a $output_filename -o always
         #Copy Episode to S3
-        aws s3 cp $output_dir$output_filename.aac s3://$bucket/$RADIOSTATION/$output_filename.aac
+        # aws s3 cp $output_dir$output_filename.aac s3://$bucket/$RADIOSTATION/$output_filename.aac
         #Delete message
         aws --region "$AWS_REGION" sqs delete-message --queue-url "$QUEUE_URL" --receipt-handle "$RECEIPT"
 

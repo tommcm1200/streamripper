@@ -79,10 +79,10 @@ DURATION="5"
 #     || die "filename '$FILENAME' contains forbidden characters."
 # echo "$VALUE" | grep -qE '^[0-9]+$' \
 #     || die "value '$VALUE' is not an integer numeric value."
-
+date=`date +"%Y-%m-%d_%a_%H%M%P"`
 ## Create a boiler-plate JSON message
-JSON="{ \"url\" : \"$URL\", \"showname\": \"$SHOWNAME\", \"radiostation\": \"$RADIOSTATION\", \"duration\": \"$DURATION\" }"
-
+JSON="{ \"url\" : \"$URL\", \"showname\": \"$date\", \"radiostation\": \"$RADIOSTATION\", \"duration\": \"$DURATION\" }"
+echo $JSON
 
 # QUEUE_URL=$(get_queue_url "$QUEUE_NAME") || exit 1
 QUEUE_URL="https://sqs.ap-southeast-2.amazonaws.com/447119549480/StreamripperQueue"
