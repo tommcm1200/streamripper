@@ -64,6 +64,7 @@ printing the filename, value and receipt handle.
 # Default name: sqs_example
 # QUEUE_NAME=${QUEUE_NAME:-sqs_example}
 QUEUE_NAME=streamripper
+BUCKET=tommcm-streamripper
 
 set_aws_profile_param
 
@@ -106,7 +107,8 @@ docker run streamripper \
     -u $URL -d /home/streamripper/ \
     -s $SHOWNAME \
     -r $RADIOSTATION"_"$SHOWNAME \
-    -l $DURATION 
+    -l $DURATION \
+    -b $BUCKET
 
 aws $AWS_PROFILE_PARAM \
     --output=json \
