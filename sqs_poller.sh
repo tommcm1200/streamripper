@@ -106,7 +106,7 @@ RECEIPT-HANDLE: $RECEIPT"
 docker run streamripper \
     -u $URL -d /home/streamripper/ \
     -s $SHOWNAME \
-    -r $RADIOSTATION"_"$SHOWNAME \
+    -r $RADIOSTATION \
     -l $DURATION \
     -b $BUCKET
 
