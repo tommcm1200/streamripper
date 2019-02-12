@@ -8,6 +8,9 @@ TIMEOUT="10"
 COUNT=""
 LOOP=""
 
+output_dir="/home/streamripper/"
+bucket="tommcm-streamripper"
+
 function log () {
     [[ $VERBOSE == 1 ]] && logerr $@
     return 0
@@ -33,13 +36,17 @@ while (true); do
         
         date=`date +"%Y-%m-%d_%a_%H%M%P"`
         output_filename=$SHOWNAME.${date}
-
+        
         log
         echo "Receipt: $RECEIPT"
         echo "Got Message:"
         echo "$BODY"
 
-        streamripper $URL -l $DURATION -a $output_filename -o always
+        #Streamripper
+        streamripper $URL -d $output_dir -l $DURATION -a $output_filename -o always
+        #Copy Episode to S3
+        aws s3 cp $output_dir$output_filename.aac s3://$bucket/$RADIOSTATION/$output_filename.aac
+        #Delete message
         aws --region "$AWS_REGION" sqs delete-message --queue-url "$QUEUE_URL" --receipt-handle "$RECEIPT"
 
     fi
