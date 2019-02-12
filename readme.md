@@ -1,0 +1,1 @@
+-u http://eno.emit.com:8000/pbsfm_live_64.aacp -d /home/streamripper/ -s pbs -l 5 
