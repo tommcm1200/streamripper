@@ -19,7 +19,7 @@ die()
 {
     BASE=$(basename -- "$0")
     echo "$BASE: error: $@" >&2
-    exit 1
+    # exit 1
 }
 
 set_aws_profile_param()
@@ -69,6 +69,7 @@ BUCKET=tommcm-streamripper
 set_aws_profile_param
 
 QUEUE_URL=$(get_queue_url "$QUEUE_NAME") || exit 1
+
 JSON=$(aws $AWS_PROFILE_PARAM \
     --output=json \
     sqs receive-message \

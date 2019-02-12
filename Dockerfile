@@ -15,6 +15,6 @@ WORKDIR /home/streamripper
 # expose relay port
 EXPOSE 8000
 
-ADD run.sh /run.sh
-ENTRYPOINT ["/run.sh"]
+ADD run_with_poll.sh /run_with_poll.sh
+ENTRYPOINT ["/run_with_poll.sh"]
 VOLUME /home/streamripper

@@ -1,0 +1,140 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Streamripper
+Parameters: {}
+Resources:
+  StreamripperPolicy:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: 'sqs:*'
+            Effect: Allow
+            Resource: !GetAtt 
+              - StreamripperQueue
+              - Arn
+        Version: 2012-10-17
+      PolicyName: StreamripperPolicyName
+      Roles:
+        - !Ref StreamripperRole
+  StreamripperRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: 'sts:AssumeRole'
+            Effect: Allow
+            Principal:
+              Service:
+                - events.amazonaws.com
+                - sqs.amazonaws.com
+        Version: 2012-10-17
+  StreamripperQueue:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      QueueName: StreamripperQueue
+  StreamripperPBSSoulTimeRule:
+    Type: 'AWS::Events::Rule'
+    Properties:
+      Description: PBS SoulTime 11am Friday
+      Name: Streamripper-PBS-SoulTime-Rule
+      ScheduleExpression: cron(0 4 ? * FRI *)
+      State: ENABLED
+      RoleArn: !GetAtt 
+        - StreamripperRole
+        - Arn
+      Targets:
+        - Arn: !GetAtt 
+            - StreamripperQueue
+            - Arn
+          Id: Streamripper_PBS_SoulTime_Rule1
+          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.aacp", "showname": "SoulTime", "radiostation": "PBS", "duration": "120" }'
+  StreamripperPBSRiddimYardRule:
+    Type: 'AWS::Events::Rule'
+    Properties:
+      Description: PBS RiddimYard 11am Friday
+      Name: Streamripper-PBS-RiddimYard-Rule
+      ScheduleExpression: cron(0 0 ? * FRI *)
+      State: ENABLED
+      RoleArn: !GetAtt 
+        - StreamripperRole
+        - Arn
+      Targets:
+        - Arn: !GetAtt 
+            - StreamripperQueue
+            - Arn
+          Id: Streamripper_PBS_RiddimYard_Rule1
+          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.aacp", "showname": "RiddimYard", "radiostation": "PBS", "duration": "120" }'
+  StreamripperPBSBablyonBurningRule:
+    Type: 'AWS::Events::Rule'
+    Properties:
+      Description: PBS BablyonBurning 5pm Saturday
+      Name: Streamripper-PBS-BablyonBurning-Rule
+      ScheduleExpression: cron(0 6 ? * SAT *)
+      State: ENABLED
+      RoleArn: !GetAtt 
+        - StreamripperRole
+        - Arn
+      Targets:
+        - Arn: !GetAtt 
+            - StreamripperQueue
+            - Arn
+          Id: Streamripper_PBS_BablyonBurning_Rule1
+          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.aacp", "showname": "BablyonBurning", "radiostation": "PBS", "duration": "120" }'
+  StreamripperPBSBossActionRule:
+    Type: 'AWS::Events::Rule'
+    Properties:
+      Description: PBS BossAction 7pm Saturday
+      Name: Streamripper-PBS-BossAction-Rule
+      ScheduleExpression: cron(0 8 ? * SAT *)
+      State: ENABLED
+      RoleArn: !GetAtt 
+        - StreamripperRole
+        - Arn
+      Targets:
+        - Arn: !GetAtt 
+            - StreamripperQueue
+            - Arn
+          Id: Streamripper_PBS_BossAction_Rule1
+          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.aacp", "showname": "BossAction", "radiostation": "PBS", "duration": "60" }'
+  StreamripperPBSFreshProduceRule:
+    Type: 'AWS::Events::Rule'
+    Properties:
+      Description: PBS FreshProduce 7pm Saturday
+      Name: Streamripper-PBS-FreshProduce-Rule
+      ScheduleExpression: cron(0 9 ? * SAT *)
+      State: ENABLED
+      RoleArn: !GetAtt 
+        - StreamripperRole
+        - Arn
+      Targets:
+        - Arn: !GetAtt 
+            - StreamripperQueue
+            - Arn
+          Id: Streamripper_PBS_FreshProduce_Rule1
+          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.aacp", "showname": "FreshProduce", "radiostation": "PBS", "duration": "120" }'
+  StreamripperQueuePolicy:
+    DependsOn:
+      - StreamripperQueue
+      - StreamripperPBSRiddimYardRule
+      - StreamripperPBSBablyonBurningRule
+      - StreamripperPBSBossActionRule
+      - StreamripperPBSFreshProduceRule
+      - StreamripperPBSSoulTimeRule
+    Type: 'AWS::SQS::QueuePolicy'
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Id: StreamripperQueuePolicy
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - events.amazonaws.com
+                - sqs.amazonaws.com
+            Action: 'sqs:SendMessage'
+            Resource: !GetAtt 
+              - StreamripperQueue
+              - Arn
+      Queues:
+        - !Ref StreamripperQueue
+Outputs: {}

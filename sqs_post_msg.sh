@@ -84,7 +84,8 @@ DURATION="5"
 JSON="{ \"url\" : \"$URL\", \"showname\": \"$SHOWNAME\", \"radiostation\": \"$RADIOSTATION\", \"duration\": \"$DURATION\" }"
 
 
-QUEUE_URL=$(get_queue_url "$QUEUE_NAME") || exit 1
+# QUEUE_URL=$(get_queue_url "$QUEUE_NAME") || exit 1
+QUEUE_URL="https://sqs.ap-southeast-2.amazonaws.com/447119549480/StreamripperQueue"
 aws $AWS_PROFILE_PARAM \
     sqs send-message \
     --queue-url "$QUEUE_URL" \
