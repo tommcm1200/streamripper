@@ -35,7 +35,7 @@ while (true); do
         DURATION=$(echo "$BODY" | jq -r '.duration')        
         
         date=`date +"%Y-%m-%d_%a_%H%M%P"`
-        output_filename=$SHOWNAME.${date}
+        output_filename=`$RADIOSTATION-$SHOWNAME-${date}.mp3`
         
         log
         echo "Receipt: $RECEIPT"
@@ -45,7 +45,7 @@ while (true); do
         #Streamripper
         streamripper $URL -d $output_dir -l $DURATION -a $output_filename -o always
         #Copy Episode to S3
-        # aws s3 cp $output_dir$output_filename.aac s3://$bucket/$RADIOSTATION/$output_filename.aac
+        aws s3 cp $output_dir$output_filename s3://$bucket/$RADIOSTATION/$SHOWNAME/$output_filename
         #Delete message
         aws --region "$AWS_REGION" sqs delete-message --queue-url "$QUEUE_URL" --receipt-handle "$RECEIPT"
 

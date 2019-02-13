@@ -47,13 +47,13 @@ Resources:
             - StreamripperQueue
             - Arn
           Id: Streamripper_PBS_Test_Rule1
-          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.aacp", "showname": "Test", "radiostation": "PBS", "duration": "240" }'
+          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.mp3", "showname": "Test", "radiostation": "PBS", "duration": "240" }'
   StreamripperPBSSoulTimeRule:
     Type: 'AWS::Events::Rule'
     Properties:
       Description: PBS SoulTime 11am Friday
       Name: Streamripper-PBS-SoulTime-Rule
-      ScheduleExpression: cron(0 4 ? * FRI *)
+      ScheduleExpression: cron(0 4 ? * WED *)
       State: ENABLED
       RoleArn: !GetAtt 
         - StreamripperRole
@@ -63,7 +63,7 @@ Resources:
             - StreamripperQueue
             - Arn
           Id: Streamripper_PBS_SoulTime_Rule1
-          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.aacp", "showname": "SoulTime", "radiostation": "PBS", "duration": "7200" }'
+          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.mp3", "showname": "SoulTime", "radiostation": "PBS", "duration": "7200" }'
   StreamripperPBSRiddimYardRule:
     Type: 'AWS::Events::Rule'
     Properties:
@@ -79,7 +79,7 @@ Resources:
             - StreamripperQueue
             - Arn
           Id: Streamripper_PBS_RiddimYard_Rule1
-          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.aacp", "showname": "RiddimYard", "radiostation": "PBS", "duration": "7200" }'
+          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.mp3", "showname": "RiddimYard", "radiostation": "PBS", "duration": "7200" }'
   StreamripperPBSBablyonBurningRule:
     Type: 'AWS::Events::Rule'
     Properties:
@@ -95,7 +95,7 @@ Resources:
             - StreamripperQueue
             - Arn
           Id: Streamripper_PBS_BablyonBurning_Rule1
-          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.aacp", "showname": "BablyonBurning", "radiostation": "PBS", "duration": "7200" }'
+          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.mp3", "showname": "BablyonBurning", "radiostation": "PBS", "duration": "7200" }'
   StreamripperPBSBossActionRule:
     Type: 'AWS::Events::Rule'
     Properties:
@@ -111,7 +111,7 @@ Resources:
             - StreamripperQueue
             - Arn
           Id: Streamripper_PBS_BossAction_Rule1
-          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.aacp", "showname": "BossAction", "radiostation": "PBS", "duration": "3600" }'
+          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.mp3", "showname": "BossAction", "radiostation": "PBS", "duration": "3600" }'
   StreamripperPBSFreshProduceRule:
     Type: 'AWS::Events::Rule'
     Properties:
@@ -127,7 +127,7 @@ Resources:
             - StreamripperQueue
             - Arn
           Id: Streamripper_PBS_FreshProduce_Rule1
-          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.aacp", "showname": "FreshProduce", "radiostation": "PBS", "duration": "7200" }'
+          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.mp3", "showname": "FreshProduce", "radiostation": "PBS", "duration": "7200" }'
   StreamripperQueuePolicy:
     DependsOn:
       - StreamripperQueue
