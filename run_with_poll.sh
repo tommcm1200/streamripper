@@ -36,6 +36,7 @@ while (true); do
         
         date=`date +"%Y-%m-%d_%a_%H%M%P"`
         output_filename=`$RADIOSTATION-$SHOWNAME-${date}.mp3`
+        echo $output_filename
         
         log
         echo "Receipt: $RECEIPT"

@@ -37,7 +37,7 @@ Resources:
     Properties:
       Description: PBS Test Rule
       Name: Streamripper-PBS-Test-Rule
-      ScheduleExpression: rate(1 minutes)
+      ScheduleExpression: rate(1 minute)
       State: DISABLED
       RoleArn: !GetAtt 
         - StreamripperRole
@@ -47,7 +47,7 @@ Resources:
             - StreamripperQueue
             - Arn
           Id: Streamripper_PBS_Test_Rule1
-          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.mp3", "showname": "Test", "radiostation": "PBS", "duration": "240" }'
+          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.mp3", "showname": "Test", "radiostation": "PBS", "duration": "30" }'
   StreamripperPBSSoulTimeRule:
     Type: 'AWS::Events::Rule'
     Properties:
@@ -79,6 +79,22 @@ Resources:
             - StreamripperQueue
             - Arn
           Id: Streamripper_PBS_RiddimYard_Rule1
+          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.mp3", "showname": "RiddimYard", "radiostation": "PBS", "duration": "7200" }'
+  StreamripperPBSRiddimYardRuleTemp:
+    Type: 'AWS::Events::Rule'
+    Properties:
+      Description: PBS RiddimYard 11am Friday
+      Name: Streamripper-PBS-RiddimYard-Rule-Temp
+      ScheduleExpression: cron(50 0 ? * FRI *)
+      State: ENABLED
+      RoleArn: !GetAtt 
+        - StreamripperRole
+        - Arn
+      Targets:
+        - Arn: !GetAtt 
+            - StreamripperQueue
+            - Arn
+          Id: Streamripper_PBS_RiddimYard_RuleTemp1
           Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.mp3", "showname": "RiddimYard", "radiostation": "PBS", "duration": "7200" }'
   StreamripperPBSBablyonBurningRule:
     Type: 'AWS::Events::Rule'
@@ -133,6 +149,7 @@ Resources:
       - StreamripperQueue
       - StreamripperPBSTESTRule
       - StreamripperPBSRiddimYardRule
+      - StreamripperPBSRiddimYardRuleTemp
       - StreamripperPBSBablyonBurningRule
       - StreamripperPBSBossActionRule
       - StreamripperPBSFreshProduceRule
