@@ -36,17 +36,18 @@ while (true); do
         
         date=`date +"%Y-%m-%d_%a_%H%M%P"`
         output_filename=`$RADIOSTATION-$SHOWNAME-${date}.mp3`
-        echo $output_filename
-        
+        output_fullpath=$output_dir$output_filename
+        echo $output_fullpath
+
         log
         echo "Receipt: $RECEIPT"
         echo "Got Message:"
         echo "$BODY"
-
+        
         #Streamripper
         streamripper $URL -d $output_dir -l $DURATION -a $output_filename -o always
         #Copy Episode to S3
-        aws s3 cp $output_dir$output_filename s3://$bucket/$RADIOSTATION/$SHOWNAME/$output_filename
+        aws s3 cp output_fullpath s3://$bucket/$RADIOSTATION/$SHOWNAME/$output_filename
         #Delete message
         aws --region "$AWS_REGION" sqs delete-message --queue-url "$QUEUE_URL" --receipt-handle "$RECEIPT"
 
