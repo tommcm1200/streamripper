@@ -5,7 +5,7 @@ RUN apt-get update && apt-get -y upgrade && \
     rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update \
-    && apt-get -y install python python-pip jq \
+    && apt-get -y install python python-pip jq wget \
     && pip install awscli
 
 RUN useradd -m -d /home/streamripper streamripper
