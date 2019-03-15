@@ -34,7 +34,7 @@ while (true); do
         RADIOSTATION=$(echo "$BODY" | jq -r '.radiostation')
         DURATION=$(echo "$BODY" | jq -r '.duration')        
         
-        date=`date +"%Y-%m-%d_%a_%H%M"`
+        date=`TZ=Australia/Melbourne date +"%Y-%m-%d_%a_%H%M"`
         output_filename="$RADIOSTATION-$SHOWNAME-${date}.mp3"
         output_fullpath=$output_dir"/"$output_filename
         echo "INFO output_fullpath: $output_fullpath"
@@ -45,7 +45,14 @@ while (true); do
         echo "$BODY"
         
         #Streamripper
-        streamripper $URL -d $output_dir -l $DURATION -a $output_filename -o always
+        # streamripper $URL -d $output_dir -l $DURATION -a $output_filename -o always
+        LENGTH=$DURATION 
+        wget -O $output_fullpath $URL &
+        WGETPID=$!
+        sleep $LENGTH
+        kill $WGETPID
+
+
         #Copy Episode to S3
         aws s3 cp $output_fullpath s3://$bucket/$RADIOSTATION/$SHOWNAME/$output_filename
         #Delete message

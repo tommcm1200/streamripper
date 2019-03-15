@@ -144,6 +144,22 @@ Resources:
             - Arn
           Id: Streamripper_PBS_FreshProduce_Rule1
           Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.mp3", "showname": "FreshProduce", "radiostation": "PBS", "duration": "7200" }'
+  StreamripperPBSPassingNotesRule:
+    Type: 'AWS::Events::Rule'
+    Properties:
+      Description: PBS PassingNotes 9pm Friday
+      Name: Streamripper-PBS-PassingNotes-Rule
+      ScheduleExpression: cron(3 10 ? * FRI *)
+      State: ENABLED
+      RoleArn: !GetAtt 
+        - StreamripperRole
+        - Arn
+      Targets:
+        - Arn: !GetAtt 
+            - StreamripperQueue
+            - Arn
+          Id: Streamripper_PBS_PassingNotes_Rule1
+          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.mp3", "showname": "PassingNotes", "radiostation": "PBS", "duration": "7200" }'
   StreamripperQueuePolicy:
     DependsOn:
       - StreamripperQueue
@@ -153,6 +169,7 @@ Resources:
       - StreamripperPBSBablyonBurningRule
       - StreamripperPBSBossActionRule
       - StreamripperPBSFreshProduceRule
+      - StreamripperPBSPassingNotesRule
       - StreamripperPBSSoulTimeRule
     Type: 'AWS::SQS::QueuePolicy'
     Properties:
