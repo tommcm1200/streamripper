@@ -8,7 +8,7 @@ TIMEOUT="10"
 COUNT=""
 LOOP=""
 
-output_dir="/home/streamripper/"
+output_dir="/tmp"
 bucket="tommcm-streamripper"
 
 function log () {
@@ -34,10 +34,10 @@ while (true); do
         RADIOSTATION=$(echo "$BODY" | jq -r '.radiostation')
         DURATION=$(echo "$BODY" | jq -r '.duration')        
         
-        date=`date +"%Y-%m-%d_%a_%H%M%P"`
-        output_filename=`$RADIOSTATION-$SHOWNAME-${date}.mp3`
-        output_fullpath=$output_dir$output_filename
-        echo $output_fullpath
+        date=`date +"%Y-%m-%d_%a_%H%M%"`
+        output_filename="$RADIOSTATION-$SHOWNAME-${date}.mp3"
+        output_fullpath=$output_dir"/"$output_filename
+        echo "INFO output_fullpath: $output_fullpath"
 
         log
         echo "Receipt: $RECEIPT"
@@ -47,7 +47,7 @@ while (true); do
         #Streamripper
         streamripper $URL -d $output_dir -l $DURATION -a $output_filename -o always
         #Copy Episode to S3
-        aws s3 cp output_fullpath s3://$bucket/$RADIOSTATION/$SHOWNAME/$output_filename
+        aws s3 cp $output_fullpath s3://$bucket/$RADIOSTATION/$SHOWNAME/$output_filename
         #Delete message
         aws --region "$AWS_REGION" sqs delete-message --queue-url "$QUEUE_URL" --receipt-handle "$RECEIPT"
 

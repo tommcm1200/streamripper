@@ -47,7 +47,7 @@ Resources:
             - StreamripperQueue
             - Arn
           Id: Streamripper_PBS_Test_Rule1
-          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.mp3", "showname": "Test", "radiostation": "PBS", "duration": "30" }'
+          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.mp3", "showname": "Test", "radiostation": "PBS", "duration": "5" }'
   StreamripperPBSSoulTimeRule:
     Type: 'AWS::Events::Rule'
     Properties:
