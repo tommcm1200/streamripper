@@ -34,7 +34,7 @@ while (true); do
         RADIOSTATION=$(echo "$BODY" | jq -r '.radiostation')
         DURATION=$(echo "$BODY" | jq -r '.duration')        
         
-        date=`date +"%Y-%m-%d_%a_%H%M%"`
+        date=`date +"%Y-%m-%d_%a_%H%M"`
         output_filename="$RADIOSTATION-$SHOWNAME-${date}.mp3"
         output_fullpath=$output_dir"/"$output_filename
         echo "INFO output_fullpath: $output_fullpath"
