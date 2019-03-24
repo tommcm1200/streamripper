@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-AWS_REGION="ap-southeast-2"
-QUEUE_URL="https://sqs.ap-southeast-2.amazonaws.com/447119549480/StreamripperQueue"
-RUN_CMD="streamripper $URL -l $DURATION -a $output_filename -o always"
-VERBOSE="0"
-TIMEOUT="10"
-COUNT=""
-LOOP=""
+# AWS_REGION="ap-southeast-2"
+# QUEUE_URL="https://sqs.ap-southeast-2.amazonaws.com/447119549480/StreamripperQueue"
+# RUN_CMD="streamripper $URL -l $DURATION -a $output_filename -o always"
+# VERBOSE="0"
+# TIMEOUT="10"
+# COUNT=""
+# LOOP=""
 
 output_dir="/tmp"
 bucket="tommcm-streamripper"
@@ -44,6 +44,9 @@ while (true); do
         echo "Got Message:"
         echo "$BODY"
         
+        #Delete message
+        aws --region "$AWS_REGION" sqs delete-message --queue-url "$QUEUE_URL" --receipt-handle "$RECEIPT"
+
         #Streamripper
         # streamripper $URL -d $output_dir -l $DURATION -a $output_filename -o always
         LENGTH=$DURATION 
@@ -52,12 +55,9 @@ while (true); do
         sleep $LENGTH
         kill $WGETPID
 
-
         #Copy Episode to S3
         aws s3 cp $output_fullpath s3://$bucket/$RADIOSTATION/$SHOWNAME/$output_filename
-        #Delete message
-        aws --region "$AWS_REGION" sqs delete-message --queue-url "$QUEUE_URL" --receipt-handle "$RECEIPT"
-
+        
     fi
     if [[ $LOOP != "" ]]; then
         let LOOP--

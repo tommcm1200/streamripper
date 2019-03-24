@@ -80,22 +80,6 @@ Resources:
             - Arn
           Id: Streamripper_PBS_RiddimYard_Rule1
           Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.mp3", "showname": "RiddimYard", "radiostation": "PBS", "duration": "7200" }'
-  StreamripperPBSRiddimYardRuleTemp:
-    Type: 'AWS::Events::Rule'
-    Properties:
-      Description: PBS RiddimYard 11am Friday
-      Name: Streamripper-PBS-RiddimYard-Rule-Temp
-      ScheduleExpression: cron(50 0 ? * FRI *)
-      State: ENABLED
-      RoleArn: !GetAtt 
-        - StreamripperRole
-        - Arn
-      Targets:
-        - Arn: !GetAtt 
-            - StreamripperQueue
-            - Arn
-          Id: Streamripper_PBS_RiddimYard_RuleTemp1
-          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.mp3", "showname": "RiddimYard", "radiostation": "PBS", "duration": "7200" }'
   StreamripperPBSBablyonBurningRule:
     Type: 'AWS::Events::Rule'
     Properties:
@@ -144,12 +128,12 @@ Resources:
             - Arn
           Id: Streamripper_PBS_FreshProduce_Rule1
           Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.mp3", "showname": "FreshProduce", "radiostation": "PBS", "duration": "7200" }'
-  StreamripperPBSPassingNotesRule:
+  StreamripperRRRGetDownRule:
     Type: 'AWS::Events::Rule'
     Properties:
-      Description: PBS PassingNotes 9pm Friday
-      Name: Streamripper-PBS-PassingNotes-Rule
-      ScheduleExpression: cron(3 10 ? * FRI *)
+      Description: RRR GetDown 12pm Thursday
+      Name: Streamripper-RRR-GetDown-Rule
+      ScheduleExpression: cron(0 1 ? * THU *)
       State: ENABLED
       RoleArn: !GetAtt 
         - StreamripperRole
@@ -158,19 +142,52 @@ Resources:
         - Arn: !GetAtt 
             - StreamripperQueue
             - Arn
-          Id: Streamripper_PBS_PassingNotes_Rule1
-          Input: '{ "url" : "http://eno.emit.com:8000/pbsfm_live_64.mp3", "showname": "PassingNotes", "radiostation": "PBS", "duration": "7200" }'
+          Id: Streamripper-RRR-GetDown-Rule1
+          Input: '{ "url" : "http://public-radio1.internode.on.net:8002/114", "showname": "GetDown", "radiostation": "RRR", "duration": "7200" }'
+  StreamripperCKUTWeFunkRule:
+    Type: 'AWS::Events::Rule'
+    Properties:
+      Description: WeFunk 12am Saturday EST (Montreal)
+      Name: Streamripper-CKUT-WeFunk-Rule
+      ScheduleExpression: cron(0 4 ? * SAT *)
+      State: ENABLED
+      RoleArn: !GetAtt 
+        - StreamripperRole
+        - Arn
+      Targets:
+        - Arn: !GetAtt 
+            - StreamripperQueue
+            - Arn
+          Id: Streamripper-CKUT-WeFunk-Rule1
+          Input: '{ "url" : "http://stream.ckut.ca:8000/903fm-192-stereo", "showname": "WeFunk", "radiostation": "CKUT", "duration": "7200" }'
+  StreamripperBBC1XtraDavidRodiganRule:
+    Type: 'AWS::Events::Rule'
+    Properties:
+      Description: BBC1Xtra DavidRodigan Sunday 7pm UTC
+      Name: Streamripper-BBC1Xtra-DavidRodigan-Rule
+      ScheduleExpression: cron(0 19 ? * SUN *)
+      State: ENABLED
+      RoleArn: !GetAtt 
+        - StreamripperRole
+        - Arn
+      Targets:
+        - Arn: !GetAtt 
+            - StreamripperQueue
+            - Arn
+          Id: Streamripper-BBC1Xtra-DavidRodigan-Rule1
+          Input: '{ "url" : "http://bbcmedia.ic.llnwd.net/stream/bbcmedia_radio1xtra_mf_p", "showname": "DavidRodigan", "radiostation": "BBC1Xtra", "duration": "7200" }'
   StreamripperQueuePolicy:
     DependsOn:
       - StreamripperQueue
       - StreamripperPBSTESTRule
       - StreamripperPBSRiddimYardRule
-      - StreamripperPBSRiddimYardRuleTemp
       - StreamripperPBSBablyonBurningRule
       - StreamripperPBSBossActionRule
       - StreamripperPBSFreshProduceRule
-      - StreamripperPBSPassingNotesRule
       - StreamripperPBSSoulTimeRule
+      - StreamripperRRRGetDownRule
+      - StreamripperCKUTWeFunkRule
+      - StreamripperBBC1XtraDavidRodiganRule
     Type: 'AWS::SQS::QueuePolicy'
     Properties:
       PolicyDocument:
