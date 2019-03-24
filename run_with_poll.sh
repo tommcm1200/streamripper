@@ -8,6 +8,16 @@
 # COUNT=""
 # LOOP=""
 
+echo ------------------------
+echo AWS_REGION: $AWS_REGION
+echo QUEUE_URL: $QUEUE_URL
+echo RUN_CMD: $RUN_CMD
+echo VERBOSE: $VERBOSE
+echo TIMEOUT: $TIMEOUT
+echo COUNT: $COUNT
+echo LOOP: $LOOP
+echo ------------------------
+
 output_dir="/tmp"
 bucket="tommcm-streamripper"
 
