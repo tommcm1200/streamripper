@@ -13,3 +13,5 @@ docker run streamripper \
 -e TIMEOUT="10" \
 -e COUNT="" \
 -e LOOP="" 
+
+docker run --env-file ./env.list streamripper 
