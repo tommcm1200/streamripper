@@ -1,0 +1,20 @@
+{
+    "serviceName": "streamripper", 
+    "taskDefinition": "arn:aws:ecs:ap-southeast-2:447119549480:task-definition/streamripper",
+    "desiredCount": 2,
+    "launchType": "FARGATE",
+    "platformVersion": "LATEST", 
+    "networkConfiguration": {
+        "awsvpcConfiguration": {
+            "subnets": [
+                "subnet-b74bbec1", 
+                "subnet-cac60fae", 
+                "subnet-b842b4e1"
+            ], 
+            "securityGroups": [
+                "sg-0e1317bdf63fd4da8"
+            ], 
+            "assignPublicIp": "ENABLED"
+        }
+    }
+}
