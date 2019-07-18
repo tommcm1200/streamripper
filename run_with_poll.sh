@@ -66,7 +66,7 @@ while (true); do
         kill $WGETPID
 
         #Copy Episode to S3
-        aws s3 cp $output_fullpath s3://$bucket/$RADIOSTATION/$SHOWNAME/$output_filename
+        aws s3 cp $output_fullpath s3://$bucket/$RADIOSTATION/$SHOWNAME/$output_filename --storage-class STANDARD_IA
         
     fi
     if [[ $LOOP != "" ]]; then

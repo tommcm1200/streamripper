@@ -3,7 +3,7 @@ docker run streamripper -u http://eno.emit.com:8000/pbsfm_live_64.aacp -d /home/
 https://github.com/clue/docker-streamripper
 https://www.lifewire.com/pass-arguments-to-bash-script-2200571
 
-docker build streamripper .
+docker build . --tag streamripper
 
 docker run streamripper \
 -e AWS_REGION="ap-southeast-2" \
