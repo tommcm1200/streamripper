@@ -165,7 +165,7 @@ Resources:
     Properties:
       Description: BBC1Xtra DavidRodigan Sunday 7pm UTC
       Name: Streamripper-BBC1Xtra-DavidRodigan-Rule
-      ScheduleExpression: cron(0 18 ? * SUN *)
+      ScheduleExpression: cron(0 12 ? * SUN *)
       State: ENABLED
       RoleArn: !GetAtt 
         - StreamripperRole
